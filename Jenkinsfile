@@ -1,14 +1,23 @@
 pipeline {
     agent any
 
-    environment {
-        NEW_VERSION = "1.3.0"
+    parameters {
+        booleanParam(name: 'executeTests', defaultValue: true)
     }
 
     stages {
         stage('Build') {
             steps {
-                echo "Building version ${NEW_VERSION}"
+                echo 'Building..'
+            }
+        }
+
+        stage('Test') {
+            when {
+                expression { params.executeTests == true }
+            }
+            steps {
+                echo 'Testing..'
             }
         }
     }
